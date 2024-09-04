@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('background.jpg') no-repeat center center fixed; 
+    background-size: cover;
+    color: black;
+}
+
+header {
+    background: url('header-background.jpg') no-repeat center center;
+    background-size: cover;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    border-bottom: rgba(0, 0, 0, 0.1); 
+}
+
+/* Header Title */
+header h1 {
+    margin-bottom: 0.5rem;
+}
+
+/* Navigation Styling */
+nav {
+    margin-top: 1rem;
+}
+
+nav a {
+    color: black;
+    margin: 0 1rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: #c8e6c9; /* Light Green */
+}
+
+/* Main Content Styling */
+main {
+    padding: 2rem;
+    max-width: 500px;
+    margin: auto;
+}
+
+/* Form Styling */
+form {
+    background-color: #ffffff; /* White */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+form label {
+    display: block;
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: darkcyan;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: teal; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+}
+
+th {
+    background-color: cornflowerblue; 
+    color: #fff;
+}
+
+td {
+    background-color: #ffffff; 
+}
+
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+footer {
+    background-color: darkcyan; 
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    border-top: 3px solid teal ; 
+}
+
+@media (max-width: 768px) {
+    nav a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    form {
+        padding: 1.5rem;
+    }
+}

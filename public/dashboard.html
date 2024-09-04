@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Expense Tracker</h1>
+        <nav>
+            <a href="/home.html">Home</a>
+            <a href="/add-expense.html">Add Expense</a>
+            <a href="/edit-expense.html">Edit Expense</a>
+            <a href="/settings.html">Settings</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Dashboard</h2>
+
+        <!-- Message container -->
+        <div id="response-message"></div>
+
+        <label for="category-dropdown">Select Category:</label>
+        <select id="category-dropdown">
+            <option value="">--Select a category--</option>
+            <!-- Categories will be dynamically inserted here -->
+        </select>
+
+        <label for="date-filter">Select Date:</label>
+        <input type="date" id="date-filter">
+
+        <button id="filter-btn">Filter</button>
+        <canvas id="expenseChart" width="400" height="200"></canvas>
+
+        <table id="expenses-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Expenses will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <button id="logout-btn" style="margin-top:20px;">Logout</button>
+    </main>
+    <footer>
+        <p>&copy; 2024 Expense Tracker. All rights reserved.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
