@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Handle Registration Form
     const registerForm = document.getElementById('registration-form');
     if (registerForm) {
         registerForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
@@ -25,8 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (response.ok) {
                         responseMessage.textContent = 'Registration successful! Redirecting to login...';
                         setTimeout(() => {
-                            window.location.href = './login.html'; // Redirect to login page
-                        }, 2000); // Wait 2 seconds before redirect
+                            window.location.href = './login.html'; 
+                        }, 2000); 
                     } else {
                         responseMessage.textContent = `Registration failed: ${result}`;
                     }
@@ -40,11 +39,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Handle Login Form
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -63,12 +61,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (responseMessage) {
                     if (response.ok) {
-                        // Store userId in localStorage or sessionStorage
                         localStorage.setItem('userId', result.userId);
                         responseMessage.textContent = 'Login successful! Redirecting to dashboard...';
                         setTimeout(() => {
-                            window.location.href = './dashboard.html'; // Redirect to dashboard page
-                        }, 2000); // Wait 2 seconds before redirect
+                            window.location.href = './dashboard.html'; 
+                        }, 2000); 
                     } else {
                         responseMessage.textContent = `Login failed: ${result.message}`;
                     }
@@ -82,17 +79,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Handle Add Expense Form
     const addExpenseForm = document.getElementById('add-expense-form');
     if (addExpenseForm) {
         addExpenseForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
             const category = document.getElementById('category').value;
             const amount = document.getElementById('amount').value;
             const description = document.getElementById('description').value;
             const date = document.getElementById('date').value;
-            const userId = localStorage.getItem('userId'); // Get user ID from storage
+            const userId = localStorage.getItem('userId'); 
             const responseMessage = document.getElementById('response-message');
 
             try {
@@ -110,8 +106,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (response.ok) {
                         responseMessage.textContent = 'Expense added successfully!';
                         setTimeout(() => {
-                            window.location.href = './dashboard.html'; // Redirect to dashboard page
-                        }, 2000); // Wait 2 seconds before redirect
+                            window.location.href = './dashboard.html'; 
+                        }, 2000); 
                     } else {
                         responseMessage.textContent = `Error adding expense: ${result}`;
                     }
@@ -125,7 +121,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Handle Edit Expense Form
     const expenseId = new URLSearchParams(window.location.search).get('id');
     const editExpenseForm = document.getElementById('edit-expense-form');
     const responseMessage = document.getElementById('response-message');
@@ -156,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('category').value = expense.category;
                 document.getElementById('amount').value = expense.amount;
                 document.getElementById('description').value = expense.description;
-                document.getElementById('date').value = expense.date.split('T')[0]; // Convert timestamp to date
+                document.getElementById('date').value = expense.date.split('T')[0]; 
 
                 await fetchCategories();
             } else {
@@ -170,7 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (editExpenseForm) {
         editExpenseForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
             const id = document.getElementById('expense-id').value;
             const category = document.getElementById('category').value;
@@ -190,8 +185,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     responseMessage.textContent = 'Expense updated successfully!';
                     setTimeout(() => {
-                        window.location.href = './dashboard.html'; // Redirect to dashboard page
-                    }, 2000); // Wait 2 seconds before redirect
+                        window.location.href = './dashboard.html'; 
+                    }, 2000); 
                 } else {
                     responseMessage.textContent = `Error updating expense: ${await response.text()}`;
                 }
@@ -206,7 +201,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         fetchExpenseDetails();
     }
 
-    // Handle Delete Expense Action
     document.addEventListener('click', async (event) => {
         if (event.target.classList.contains('delete-btn')) {
             const id = event.target.getAttribute('data-id');
@@ -218,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     if (response.ok) {
                         alert('Expense deleted successfully!');
-                        window.location.reload(); // Reload the page to reflect changes
+                        window.location.reload(); 
                     } else {
                         alert(`Failed to delete expense: ${await response.text()}`);
                     }
@@ -230,7 +224,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Apply Filters and Fetch Expenses
     const filterBtn = document.getElementById('filter-btn');
     if (filterBtn) {
         filterBtn.addEventListener('click', () => {
@@ -242,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function fetchExpenses(category = '', date = '') {
         try {
-            const userId = localStorage.getItem('userId'); // Get user ID from storage
+            const userId = localStorage.getItem('userId'); 
             let url = `/api/expenses?user_id=${userId}`;
             if (category || date) {
                 const params = new URLSearchParams();
@@ -278,23 +271,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         fetchExpenses();
     }
 
-    // Load Categories on Add Expense Page
     if (document.getElementById('add-expense-form')) {
         await fetchCategories();
     }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Handle Profile Update Form
     const profileForm = document.getElementById('profile-form');
     if (profileForm) {
         profileForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const responseMessage = document.getElementById('profile-message');
-            const userId = localStorage.getItem('userId'); // Get user ID from storage
+            const userId = localStorage.getItem('userId'); 
 
             try {
                 const response = await fetch(`/api/users/${userId}`, {
@@ -318,17 +309,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Handle Password Change Form
     const passwordForm = document.getElementById('password-form');
     if (passwordForm) {
         passwordForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
             const currentPassword = document.getElementById('current-password').value;
             const newPassword = document.getElementById('new-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             const responseMessage = document.getElementById('password-message');
-            const userId = localStorage.getItem('userId'); // Get user ID from storage
+            const userId = localStorage.getItem('userId'); 
 
             if (newPassword !== confirmPassword) {
                 responseMessage.textContent = 'New passwords do not match.';
@@ -358,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
- // Function to fetch expense data for the chart
  async function fetchExpenseData() {
     const userId = localStorage.getItem('userId');
     const response = await fetch(`/api/expenses?user_id=${userId}`);
@@ -366,11 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return expenses;
 }
 
-// Function to generate the chart
 async function generateExpenseChart() {
     const expenses = await fetchExpenseData();
 
-    // Process data for the chart
     const categories = [];
     const amounts = [];
 
@@ -384,20 +371,19 @@ async function generateExpenseChart() {
         }
     });
 
-    // Create the chart
     const ctx = document.getElementById('expenseChart').getContext('2d');
     new Chart(ctx, {
-        type: 'bar', // You can change this to 'pie', 'line', etc.
+        type: 'bar', 
         data: {
             labels: categories,
             datasets: [{
                 label: 'Expenses by Category',
                 data: amounts,
                 backgroundColor: [
-                    '#FF5733', // Bright red
-                    '#33FF57', // Bright green
-                    '#3357FF', // Bright blue
-                    '#FF33A6'  // Bright pink
+                    '#FF5733', 
+                    '#33FF57', 
+                    '#3357FF', 
+                    '#FF33A6'  
                 ],
                 borderColor: [
                     '#FF5733',
@@ -412,15 +398,15 @@ async function generateExpenseChart() {
             scales: {
                 x: {
                     ticks: {
-                        color: '#000000' // Black for x-axis labels
+                        color: '#000000' 
                     },
                     grid: {
-                        color: 'rgba(0, 0, 0, 0)' // Transparent grid lines for x-axis
+                        color: 'rgba(0, 0, 0, 0)' 
                     }
                 },
                 y: {
                     ticks: {
-                        color: '#000000' // Black for y-axis labels
+                        color: '#000000' 
                     },
                     grid: {
                         color: 'rgba(0, 0, 0, 0)'
@@ -432,19 +418,15 @@ async function generateExpenseChart() {
     });
 }
 
-// Generate the chart when the DOM is fully loaded
 if (document.getElementById('expenseChart')) {
     generateExpenseChart();
 }
 
- // Handle Logout
  const logoutBtn = document.getElementById('logout-btn');
  if (logoutBtn) {
      logoutBtn.addEventListener('click', () => {
-         // Clear user session data (from localStorage)
          localStorage.removeItem('userId');
 
-         // Redirect to login page after logout
          window.location.href = './login.html';
      });
  }
