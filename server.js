@@ -7,22 +7,20 @@ const Joi = require('joi');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000
 
-// Database setup with connection pooling
 const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    connectionLimit: 10 // Connection pool limit
+    connectionLimit: 10 
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve HTML pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
@@ -55,7 +53,6 @@ app.get('/settings', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'settings.html'));
 });
 
-// Serve predefined categories
 app.get('/api/categories', (req, res) => {
     const categories = [
         'Food', 'Housing', 'Transportation', 'Utilities', 'Books & Supplies',
@@ -65,7 +62,6 @@ app.get('/api/categories', (req, res) => {
     res.status(200).json(categories);
 });
 
-// User registration
 app.post('/api/register', async (req, res) => {
     const { username, email, password } = req.body;
     try {
@@ -85,7 +81,6 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-// User login
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const query = 'SELECT user_id, password FROM users WHERE username = ?';
@@ -127,7 +122,6 @@ app.post('/api/expenses', (req, res) => {
     });
 });
 
-// Get expenses
 app.get('/api/expenses', (req, res) => {
     const { user_id, category, date } = req.query;
     let query = 'SELECT * FROM expenses WHERE user_id = ?';
@@ -153,7 +147,6 @@ app.get('/api/expenses', (req, res) => {
     });
 });
 
-// Get expense by ID
 app.get('/api/expenses/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM expenses WHERE expense_id = ?';
@@ -169,7 +162,6 @@ app.get('/api/expenses/:id', (req, res) => {
     });
 });
 
-// Update expense
 app.put('/api/expenses/:id', (req, res) => {
     const { id } = req.params;
     const { category, amount, description, date } = req.body;
@@ -184,7 +176,6 @@ app.put('/api/expenses/:id', (req, res) => {
     });
 });
 
-// Delete expense
 app.delete('/api/expenses/:id', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM expenses WHERE expense_id = ?';
@@ -198,7 +189,6 @@ app.delete('/api/expenses/:id', (req, res) => {
     });
 });
 
-// Update Profile Information
 app.put('/api/users/:userId', (req, res) => {
     const { userId } = req.params;
     const { username, email } = req.body;
@@ -213,12 +203,10 @@ app.put('/api/users/:userId', (req, res) => {
     });
 });
 
-// Change Password
 app.put('/api/users/:userId/password', async (req, res) => {
     const { userId } = req.params;
     const { currentPassword, newPassword } = req.body;
 
-    // Check current password
     const query = 'SELECT password FROM users WHERE user_id = ?';
     db.query(query, [userId], async (err, result) => {
         if (err) {
@@ -227,7 +215,6 @@ app.put('/api/users/:userId/password', async (req, res) => {
         } else if (result.length === 0 || !(await bcrypt.compare(currentPassword, result[0].password))) {
             res.status(401).send('Current password is incorrect');
         } else {
-            // Update to new password
             const hashedPassword = await bcrypt.hash(newPassword, 10);
             const updateQuery = 'UPDATE users SET password = ? WHERE user_id = ?';
             db.query(updateQuery, [hashedPassword, userId], (err) => {
